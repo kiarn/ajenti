@@ -74,7 +74,7 @@
     -webkit-animation-delay: -3s;
 }
 
-.flipCycleFramesTpl() {
+@mixin flipCycleFramesTpl() {
     0% {
         transform: rotateY(0deg);
         -webkit-transform: rotateY(0deg);
@@ -97,9 +97,9 @@
     }
 }
 
-@keyframes flip-cycle-frames { .flipCycleFramesTpl(); }
-@-moz-keyframes flip-cycle-frames { .flipCycleFramesTpl(); }
-@-webkit-keyframes flip-cycle-frames { .flipCycleFramesTpl(); }
+@keyframes flip-cycle-frames { @include flipCycleFramesTpl(); }
+@-moz-keyframes flip-cycle-frames { @include flipCycleFramesTpl(); }
+@-webkit-keyframes flip-cycle-frames { @include flipCycleFramesTpl(); }
 
 
 
@@ -132,7 +132,7 @@
     -webkit-animation: indeterminate-frames linear infinite 1s;
 }
 
-.indeterminateFramesTpl() {
+@mixin indeterminateFramesTpl() {
     0% {
         margin-left: 0;
         width: 0;
@@ -155,9 +155,9 @@
     }
 }
 
-@keyframes indeterminate-frames { .indeterminateFramesTpl(); }
-@-moz-keyframes indeterminate-frames { .indeterminateFramesTpl(); }
-@-webkit-keyframes indeterminate-frames { .indeterminateFramesTpl(); }
+@keyframes indeterminate-frames { @include indeterminateFramesTpl(); }
+@-moz-keyframes indeterminate-frames { @include indeterminateFramesTpl(); }
+@-webkit-keyframes indeterminate-frames { @include indeterminateFramesTpl(); }
 
 
 

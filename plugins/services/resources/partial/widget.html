@@ -2,7 +2,7 @@
     <div class="widget-header">
         {{service.name || ('No service'|translate)}} / {{service.managerId}}
     </div>
-    <div class="pull-right btn-group">
+    <div class="float-right btn-group">
         <a class="btn btn-default subtle" ng:click="runOperation('start')" ng:show="!service.isRunning">
             <i class="fa fa-fw fa-play"></i>
         </a>

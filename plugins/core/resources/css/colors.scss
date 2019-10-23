@@ -1,0 +1,155 @@
+@import "../vendor/bootstrap4/scss/bootstrap.scss";
+@import "../vendor/bootstrap4/scss/_variables.scss";
+@import "../vendor/bootstrap4/scss/mixins/_buttons.scss";
+@import "bootstrap/variables.scss";
+
+@mixin global-color($color) {
+    #loading-bar {
+        .bar {
+            background: $color;
+        }
+    }
+
+    .container-fluid > .row > .sidebar .sidebar-item,
+    .container-fluid > .sidebar .sidebar-item {
+        &.active {
+            & > div > .expander, & > div > .link {
+                background: $color;
+            }
+        }
+        h5 {
+            color: $color;
+        }
+    }
+
+    .form-control:focus {
+        border-bottom-color: $color;
+    }
+
+    .form-control:focus + .input-group-addon {
+        border-bottom-color: $color;
+        a i { color: $color; }
+    }
+
+    .navbar-brand .title {
+        color: $color;
+    }
+
+    .navbar-brand.navigation-toggle {
+        color: $color;
+    }
+
+    .btn-primary {
+        @include button-variant(white, $color, darken($color, 10%));
+    }
+
+    .btn-flat {
+        color: $color;
+    }
+
+    *[checkbox], checkbox {
+        .active i.on {
+            color: $color;
+        }
+    }
+
+    smart-progress .progress .progress-bar {
+        background: $color;
+    }
+
+    progress-spinner .one {
+        border-left-color: $color;
+        border-top-color: $color;
+    }
+
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover {
+        border-bottom: 1px solid $color;
+        color: $color;
+    }
+}
+
+body.global-color-default {
+}
+
+body.global-color-red {
+    @include global-color(desaturate($color-red, 10%));
+}
+
+body.global-color-bluegrey {
+    @include global-color(desaturate($color-bluegrey, 10%));
+}
+
+body.global-color-purple {
+    @include global-color(desaturate($color-purple, 10%));
+}
+
+body.global-color-blue {
+    @include global-color(desaturate($color-blue, 10%));
+}
+
+body.global-color-green {
+    @include global-color(desaturate($color-green, 10%));
+}
+
+body.global-color-deeporange {
+    @include global-color(desaturate($color-deeporange, 10%));
+}
+
+body.global-color-orange {
+    @include global-color(desaturate($color-orange, 10%));
+}
+
+body.global-color-teal {
+    @include global-color(desaturate($color-teal, 10%));
+}
+
+@mixin button-variant-color-selector($color) {
+    //border-top-color: $color !important;
+    border: none;
+    border-bottom: 5px solid $color !important;
+    background: lighten($color, 35%);
+
+    &.active {
+        border-color: $color !important;
+        background: $color !important;
+    }
+}
+
+.btn-color-selector-default {
+}
+
+.btn-color-selector-red {
+    @include button-variant-color-selector($color-red);
+}
+
+.btn-color-selector-bluegrey {
+    @include button-variant-color-selector($color-bluegrey);
+}
+
+.btn-color-selector-purple {
+    @include button-variant-color-selector($color-purple);
+}
+
+.btn-color-selector-blue {
+    @include button-variant-color-selector($color-blue);
+}
+
+.btn-color-selector-green {
+    @include button-variant-color-selector($color-green);
+}
+
+.btn-color-selector-deeporange {
+    @include button-variant-color-selector($color-deeporange);
+}
+
+.btn-color-selector-orange {
+    @include button-variant-color-selector($color-orange);
+}
+
+.btn-color-selector-teal {
+    @include button-variant-color-selector($color-teal);
+}
+
+
+

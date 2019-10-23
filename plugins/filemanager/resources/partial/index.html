@@ -38,7 +38,7 @@
     <div class="floating-toolbar-padder"></div>
 
     <floating-toolbar>
-        <a ng:click="showClipboard()" ng:show="clipboard.length > 0" class="btn btn-default btn-flat pull-right" test-bind="showClipboardButton">
+        <a ng:click="showClipboard()" ng:show="clipboard.length > 0" class="btn btn-default btn-flat float-right" test-bind="showClipboardButton">
             <i class="fa fa-paste"></i> {{clipboard.length}}
         </a>
 
@@ -49,13 +49,13 @@
 
         <a ng:click="doPaste()" ng:show="clipboard.length > 0" class="btn btn-default btn-flat" test-bind="pasteButton" translate>Paste here</a>
 
-        <a ng:href="{{urlPrefix}}/view/filemanager/{{path}}" target="_blank" class="btn btn-default btn-flat pull-right">
+        <a ng:href="{{urlPrefix}}/view/filemanager/{{path}}" target="_blank" class="btn btn-default btn-flat float-right">
             <i class="fa fa-plus"></i> <span translate>Tab</span>
         </a>
     </floating-toolbar>
 
     <floating-toolbar class="accented" ng:show="(items|filter:{selected:true}).length > 0" test-bind="selectionToolbar">
-        <a disabled class="btn btn-default btn-flat pull-right">
+        <a disabled class="btn btn-default btn-flat float-right">
             <strong>{{(items|filter:{selected:true}).length}}</strong> <span translate>items selected</span>
         </a>
 

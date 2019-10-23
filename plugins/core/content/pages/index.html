@@ -29,7 +29,7 @@
         </style>
     </head>
     <body class="global-color-{{identity.color || 'default'}} widescreen-mode-{{isWidescreen ? 'on' : 'off'}} {{customization.plugins.core.bodyClass}}">
-        <nav class="navbar navbar-default navbar-fixed-top" ng:show="appReady" ng:cloak>
+        <nav class="navbar navbar-fixed-top" ng:show="appReady" ng:cloak>
             <div class="container">
                 <a ng:click="toggleNavigation()" ng:show="navigationPresent" class="navbar-brand navigation-toggle hide-phone hide-tablet">
                     <i class="fa fa-navicon"></i>
@@ -50,12 +50,12 @@
                     </span> <span class="subtitle hide-phone hide-tablet">{{pageTitle|translate}}</span>
                 </a>
 
-                <a ng:click="toggleWidescreen()" class="hide-phone hide-tablet navbar-btn btn btn-default btn-flat pull-right">
+                <a ng:click="toggleWidescreen()" class="hide-phone hide-tablet float-right text-white">
                     <i class="fa fa-expand" ng:if="!isWidescreen"></i>
                     <i class="fa fa-compress" ng:if="isWidescreen"></i>
                 </a>
 
-                <div ng:show="identity.user" class="pull-right">
+                <div ng:show="identity.user" class="float-right">
                     <div uib-dropdown>
                         <a class="btn btn-default profile-button" ng:class="{superuser: identity.isSuperuser}" uib-dropdown-toggle>
                             {{identity.user[0].toUpperCase()}}
@@ -67,7 +67,7 @@
                         <ul uib-dropdown-menu class="dropdown-menu-right" style="width: 200px">
                             <li>
                                 <div>
-                                    <span class="subtle pull-right">UID {{ identity.effective }}</span>
+                                    <span class="subtle float-right">UID {{ identity.effective }}</span>
                                     <i class="fa fa-fw fa-user"></i> {{ identity.user }}
                                 </div>
                             </li>
@@ -95,20 +95,20 @@
                     </div>
                 </div>
 
-                <p class="navbar-text pull-right hide-phone" style="min-width:99px;">
+                <p class="navbar-text float-right hide-phone" style="min-width:99px;">
                     <i class="fa fa-hdd-o"></i> {{ identity.machine.name }}
                 </p>
                 <span ng:if="identity.user && resttime < 1800" translate class="pull-right sessiontime hide-phone">Session time : {{ counter[0] }}:{{ counter[1] }}:{{ counter[2] }}</span>
             </div>
         </nav>
 
-        <div class="container" ng:show="appReady">
+        <div class="container{{isWidescreen ? '-fluid' : ''}}" ng:show="appReady">
             <div class="row">
-                <div class="col-md-3 sidebar hide-tablet hide-phone" ng:show="showSidebar && navigationPresent">
+                <div class="{{isWidescreen ? 'col-md-2' : 'col-md-3'}} sidebar hide-tablet hide-phone" ng:show="showSidebar && navigationPresent">
                     <ng:include src="'/core:resources/partial/sidebarTasks.html'"></ng:include>
                     <core:sidebar></core:sidebar>
                 </div>
-                <div ng:view class="content" ng-swipe-right="toggleOverlayNavigation(true)" ng-swipe-left="toggleOverlayNavigation(false)">
+                <div ng:view class="content {{isWidescreen ? 'col-md-10' : 'col-md-9'}}" ng-swipe-right="toggleOverlayNavigation(true)" ng-swipe-left="toggleOverlayNavigation(false)">
                 </div>
             </div>
 
@@ -128,8 +128,8 @@
                     <input ng:model="$parent.query" ng:model-options="{debounce: 500}" ng:keyup="onSearchboxKeyUp($event)" ng:keydown="onSearchboxKeyDown($event)" type="search" autofocus class="form-control" placeholder="{{'Quick search'|translate}}" />
                     <div class="list-group">
                         <a ng:repeat="result in results|rankMatch:'title|translate':query" ng:href="{{urlPrefix}}{{result.url}}" ng:click="open(result)" class="list-group-item">
-                            <code class="navbox-hotkey pull-right" ng:if="$index < 10 && $index > 0">Shift - {{$index}}</code>
-                            <code class="navbox-hotkey pull-right" ng:if="$index == 0" translate>Enter</code>
+                            <code class="navbox-hotkey float-right" ng:if="$index < 10 && $index > 0">Shift - {{$index}}</code>
+                            <code class="navbox-hotkey float-right" ng:if="$index == 0" translate>Enter</code>
                             <i class="fa fa-fw fa-{{result.icon}}"></i> {{result.title|translate}}
                         </a>
                     </div>

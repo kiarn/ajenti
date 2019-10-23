@@ -3,7 +3,7 @@
 <progress-spinner ng:show="!ready"></progress-spinner>
 
 <div ng:show="ready">
-    <div uib-dropdown class="pull-right" ng:show="customization.plugins.dashboard.allowAdd">
+    <div uib-dropdown class="float-right" ng:show="customization.plugins.dashboard.allowAdd">
         <a class="btn btn-default subtle" uib-dropdown-toggle>
             <span translate>Tabs</span> <i class="fa fa-caret-down"></i>
         </a>
@@ -26,7 +26,7 @@
         </ul>
     </div>
 
-    <div class="btn-group pull-right" ng:show="customization.plugins.dashboard.allowAdd">
+    <div class="btn-group float-right" ng:show="customization.plugins.dashboard.allowAdd">
         <a class="btn btn-default subtle" uib-btn-radio="1" ng:model="userConfig.dashboard.tabs[_.activeTabIndex].width">
             <i class="fa fa-stop"></i>
         </a>
@@ -35,7 +35,7 @@
         </a>
     </div>
 
-    <div uib-dropdown class="pull-right" ng:show="customization.plugins.dashboard.allowAdd">
+    <div uib-dropdown class="float-right" ng:show="customization.plugins.dashboard.allowAdd">
         <a class="btn btn-default subtle" uib-dropdown-toggle>
             <i class="fa fa-plus"></i> <span translate>Add widget</span>
         </a>

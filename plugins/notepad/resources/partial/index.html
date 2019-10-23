@@ -23,11 +23,11 @@
 <div class="floating-toolbar-padder"></div>
 
 <floating-toolbar>
-    <a href="{{urlPrefix}}/view/notepad" target="_blank" class="btn btn-default btn-flat pull-right">
+    <a href="{{urlPrefix}}/view/notepad" target="_blank" class="btn btn-default btn-flat float-right">
         <i class="fa fa-plus"></i> <span translate>Tab</span>
     </a>
 
-    <div uib-dropdown class="btn-group dropup pull-right">
+    <div uib-dropdown class="btn-group dropup float-right">
         <a class="btn btn-default btn-flat" ng:click="toggleBookmark()" ng:class="{active: bookmarks.indexOf(path) >= 0}" title="{{'Bookmark this'|translate}}" ng:show="path">
             <i class="fa fa-bookmark-o"></i>
         </a>

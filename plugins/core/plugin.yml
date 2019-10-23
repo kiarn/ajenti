@@ -28,12 +28,11 @@ resources:
     - resources/vendor/mobile-detect/mobile-detect.min.js
     - resources/vendor/angular-gettext/dist/angular-gettext.min.js
     - resources/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js
-    - resources/css/bootstrap/bootstrap.less
-    - resources/css/overrides.less
-    - resources/css/animations.less
-    - resources/css/app.less
-    - resources/css/responsive.less
-    - resources/css/colors.less
+    - resources/css/overrides.scss
+    - resources/css/animations.scss
+    - resources/css/app.scss
+    - resources/css/responsive.scss
+    - resources/css/colors.scss
     - path: resources/extra-vendor/mixpanel.js
       vendor: true
     - path: resources/extra-vendor/socket.io.js
