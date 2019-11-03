@@ -1,31 +1,3 @@
-@import "../vendor/bootstrap4/scss/bootstrap.scss";
-@import "../vendor/bootstrap4/scss/_variables.scss";
-@import "../vendor/bootstrap4/scss/mixins/_buttons.scss";
-@import "bootstrap/variables.scss";
-
-/* B3 --> B4 */
-$screen-xs:                  480px;
-$screen-xs-min:              $screen-xs;
-$screen-phone:               $screen-xs-min;
-$screen-sm:                  768px;
-$screen-sm-min:              $screen-sm;
-$screen-tablet:              $screen-sm-min;
-$screen-md:                  992px;
-$screen-md-min:              $screen-md;
-$screen-desktop:             $screen-md-min;
-$screen-lg:                  1200px;
-$screen-lg-min:              $screen-lg;
-$screen-lg-desktop:          $screen-lg-min;
-$screen-xs-max:              ($screen-sm-min - 1);
-$screen-sm-max:              ($screen-md-min - 1);
-$screen-md-max:              ($screen-lg-min - 1);
-$padding-large-vertical:    10px;
-$padding-large-horizontal:  16px;
-$font-size-base:          14px;
-$font-size-large:         ceil(($font-size-base * 1.25)); // ~18px
-$line-height-large:         1.3333333; // extra decimals for Win 8.1 Chrome
-
-
 @media (max-width: $screen-sm-max) {
     .container-fluid {
         width: auto;

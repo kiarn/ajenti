@@ -1,6 +1,11 @@
 @import "../vendor/bootstrap4/scss/bootstrap.scss";
 @import "../vendor/bootstrap4/scss/_variables.scss";
-@import "bootstrap/variables.scss";
+@import "../vendor/bootstrap4/scss/mixins/_buttons.scss";
+@import "variables.scss";
+@import "colors.scss";
+@import "responsive.scss";
+@import "animations.scss";
+@import "overrides.scss";
 
 /* B3 --> B4 */
 $zindex-navbar-fixed:      1030;
@@ -13,6 +18,7 @@ body {
     min-height: 100%;
     cursor: default;
     overflow-y: scroll;
+    box-shadow: $object-shadow-large;
 }
 
 
@@ -51,7 +57,9 @@ body {
 }
 
 .navbar {
+/*
     box-shadow: $object-shadow-large;
+*/
     border: none;
 
     .navbar-brand {
@@ -66,7 +74,7 @@ body {
     }
 
     .profile-button {
-        margin: 10px 5px;
+        margin: 10px 10px;
         border-radius: 50%;
         height: 40px;
         width: 40px;
@@ -102,11 +110,6 @@ body {
 }
 
 
-body.widescreen-mode-on .container-fluid {
-    width: auto;
-}
-
-
 .sidebar {
     background: #eee;
     min-height: 100vh;
@@ -130,7 +133,7 @@ body.widescreen-mode-on .container-fluid {
             color: $accent;
             text-transform: uppercase;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 15px;
         }
 
         & > div {
@@ -190,7 +193,8 @@ body.widescreen-mode-on .container-fluid {
         }
 
         &.isTopLevel > .children {
-            padding-left: 0;
+            padding-left: 5px;
+            padding-right: 5px;
         }
     }
 
@@ -245,7 +249,7 @@ floating-toolbar {
     z-index: $zindex-floating-toolbar;
 
     .bar {
-        padding: 10px 20px 10px 20px;
+        padding: 10px 20px;
         line-height: 30px;
         background: white;
         box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.125);
@@ -383,7 +387,7 @@ progress-spinner {
 }
 
 .sessiontime {
+    display:block;
     font-size:10px;
-    margin-right:-134px;
-    margin-top:40px;
+    margin:0 0 0 25px;
 }
