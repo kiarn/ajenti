@@ -16,13 +16,13 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
     $scope.selectRepoPlugin = plugin => $scope.selectedRepoPlugin = plugin;
 
     $scope.refresh = () => {
-        $http.get('/api/plugins/list/installed').success((data) => {
-            $scope.installedPlugins = data;
+        $http.get('/api/plugins/list/installed').then((resp) => {
+            $scope.installedPlugins = resp.data;
             $scope.repoList = null;
             $scope.repoListOfficial = null;
             $scope.repoListCommunity = null;
-            $http.get('/api/plugins/repo/list').success((data) => {
-                $scope.repoList = data;
+            $http.get('/api/plugins/repo/list').then((resp) => {
+                $scope.repoList = resp.data;
                 $scope.notInstalledRepoList = $scope.repoList.filter((x) => !$scope.isInstalled(x)).map((x) => x);
                 $scope.repoListOfficial = $scope.repoList.filter((x) => x.signature === $scope.officialKeyFingerprint).map((x) => x);
                 $scope.repoListCommunity = $scope.repoList.filter((x) => x.signature !== $scope.officialKeyFingerprint).map((x) => x);
@@ -33,10 +33,10 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
             notify.error(gettext('Could not load the installed plugin list'), err.message)
         });
 
-        $http.get('/api/plugins/core/check-upgrade').success(data => $scope.coreUpgradeAvailable = data);
+        $http.get('/api/plugins/core/check-upgrade').then(resp => $scope.coreUpgradeAvailable = resp.data);
 
         $scope.pypiList = null;
-        $http.get('/api/plugins/pypi/list').success(data => $scope.pypiList = data);
+        $http.get('/api/plugins/pypi/list').then(resp => $scope.pypiList = resp.data);
     };
 
     $scope.refresh();
@@ -144,7 +144,7 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
             negative: gettext('Cancel')
         }).then(() => {
             let msg = messagebox.show({progress: true, title: gettext('Uninstalling')});
-            return $http.get(`/api/plugins/pypi/uninstall/${plugin.name}`).success(() => {
+            return $http.get(`/api/plugins/pypi/uninstall/${plugin.name}`).then(() => {
                 $scope.refresh();
                 return messagebox.show({
                     title: gettext('Done'),

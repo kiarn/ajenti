@@ -4,7 +4,8 @@ angular.module('core').service('identity', function($http, $location, $window, $
     this.color = ajentiBootstrapColor;
 
     this.init = () =>
-        $http.get('/api/core/identity').success(data => {
+        $http.get('/api/core/identity').then(resp => {
+            data = resp.data;
             this.user = data.identity.user;
             this.uid = data.identity.uid;
             this.effective = data.identity.effective;
@@ -14,8 +15,7 @@ angular.module('core').service('identity', function($http, $location, $window, $
             this.color = data.color;
             this.isSuperuser = this.effective === 0;
             q.resolve();
-        })
-        .error(() => q.reject());
+        }, () => q.reject());
 
     this.auth = (username, password, mode) => {
         let data = {
