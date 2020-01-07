@@ -169,7 +169,7 @@ class HttpContext(object):
         return env
 
     def serialize(self):
-        return pickle.dumps({
+        return base64.b64encode(pickle.dumps({
             'env': self.get_cleaned_env(),
             'path': self.path,
             'headers': self.headers,
@@ -177,11 +177,11 @@ class HttpContext(object):
             'query': self.query,
             'prefix': self.prefix,
             'method': self.method,
-        }, protocol=0)
+        }, protocol=0))
 
     @classmethod
     def deserialize(cls, data):
-        data = pickle.loads(data)
+        data = pickle.loads(base64.b64decode(data))
         self = cls(data['env'])
         self.path = data['path']
         self.headers = data['headers']
@@ -256,6 +256,14 @@ class HttpContext(object):
         """
         self.respond('500 Server Error')
         return [b'Server Error']
+
+
+    def respond_unauthenticated(self):
+        """
+        Returns a HTTP ``401 Unauthenticated`` response
+        """
+        self.respond('401 Unauthenticated')
+        return [b'Unauthenticated']
 
     def respond_forbidden(self):
         """

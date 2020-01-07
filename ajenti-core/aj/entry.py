@@ -20,11 +20,11 @@ def start(daemonize=False, log_level=logging.INFO, **kwargs):
         context = daemon.DaemonContext(
             pidfile=PidFile('/var/run/ajenti.pid'),
             detach_process=True,
-            files_preserve=range(1024),  # force-closing files breaks gevent badly
+            files_preserve=list(range(1024)),  # force-closing files breaks gevent badly
         )
         with context:
             aj.log.init_log_directory()
-            aj.log.init_log_file()
+            aj.log.init_log_file(log_level)
             import aj.core
             try:
                 aj.core.run(**kwargs)

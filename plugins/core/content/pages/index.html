@@ -95,12 +95,11 @@
                         </div>
                     </div>
 
-                    <p class="navbar-text float-right hide-phone mb-0" style="min-width:99px;">
-                        <i class="fa fa-hdd-o"></i> {{ identity.machine.name }}
-                        <br />
-                        <span ng:if="identity.user && resttime < 1800" translate class="sessiontime hide-phone">Session time : {{ counter[0] }}:{{ counter[1] }}:{{ counter[2] }}</span>
-                    </p>
-                </div>
+                <p class="navbar-text float-right hide-phone mb-0" style="min-width:99px;">
+                    <i class="fa fa-hdd-o"></i> {{ identity.machine.name }}
+                </p>
+                <span ng:if="identity.user && resttime < 1800 && resttime >= 0" translate class="sessiontime hide-phone">Session time : {{ counter[0] }}:{{ counter[1] }}:{{ counter[2] }}</span>
+            </div>
         </nav>
 
         <div ng:show="appReady">
