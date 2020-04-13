@@ -17,13 +17,17 @@ from aj.util import BroadcastQueue
 
 
 class Terminal(object):
-    def __init__(self, manager=None, id=None, command=None, autoclose=False, autoclose_retain=5):
+    def __init__(self, manager=None, id=None, command=None, autoclose=False, autoclose_retain=5, redirect=None):
         self.width = 80
         self.height = 25
         self.id = id
         self.manager = manager
         self.autoclose = autoclose
         self.autoclose_retain = autoclose_retain
+        if redirect:
+            self.redirect = redirect
+        else:
+            self.redirect = '/view/terminal'
         self.output = BroadcastQueue()
 
         env = {}
@@ -138,7 +142,7 @@ class Terminal(object):
 
     def format(self, full=False):
         def compress(line):
-            return [[tok or 0 for tok in ch] for ch in line]
+            return [[tok or 0 for tok in ch] for _, ch in line.items()]
 
         l = {}
         self.screen.dirty.add(self.screen.cursor.y)
@@ -150,7 +154,7 @@ class Terminal(object):
         self.screen.dirty.clear()
 
         if full:
-            l = [compress(x) for x in self.screen.buffer]
+            l = [compress(x) for _, x in self.screen.buffer.items()]
 
         r = {
             'lines': l,

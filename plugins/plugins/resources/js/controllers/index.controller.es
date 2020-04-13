@@ -5,15 +5,41 @@ angular.module('core').config($routeProvider => {
     })
 });
 
-angular.module('ajenti.plugins').controller('PluginsIndexController', function($scope, $q, $http, notify, pageTitle, messagebox, tasks, core, gettext) {
+angular.module('ajenti.plugins').controller('PluginsIndexController', function($scope, $q, $http, $rootScope, notify, pageTitle, messagebox, tasks, core, gettext) {
     pageTitle.set('Plugins');
 
-    $scope.officialKeyFingerprint = '425E 018E 2394 4B4B 4281  4EE0 BDC3 FBAA 5302 9759';
     $scope.selectedInstalledPlugin = null;
     $scope.selectedRepoPlugin = null;
     $scope.coreUpgradeAvailable = null;
 
     $scope.selectRepoPlugin = plugin => $scope.selectedRepoPlugin = plugin;
+
+    $scope.needUpgrade = (local_version,repo_version) => {
+        if (repo_version === null) {
+            notify.error(gettext('Could not load repository version for ajenti-panel.'));
+            return false;
+        }
+        if (local_version === repo_version) {
+            return false;
+        }
+        details_local = local_version.split('.');
+        details_repo = repo_version.split('.');
+        min_array_len = Math.min(details_local.length, details_repo.length);
+        for (let i=0; i<=min_array_len; i++) {
+            if (parseInt(details_local[i]) < parseInt(details_repo[i])) {
+                return true;
+            }
+            // For special developer case ...
+            if (parseInt(details_local[i]) > parseInt(details_repo[i])) {
+                return false;
+            }
+        }
+        // At this point, all minimal details values are equals, like e.g. 1.32 and 1.32.4
+        if (details_local.length < details_repo.length) {
+            return true;
+        }
+        return false;
+    }
 
     $scope.refresh = () => {
         $http.get('/api/plugins/list/installed').then((resp) => {
@@ -21,11 +47,11 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
             $scope.repoList = null;
             $scope.repoListOfficial = null;
             $scope.repoListCommunity = null;
-            $http.get('/api/plugins/repo/list').then((resp) => {
-                $scope.repoList = resp.data;
+            $http.get('/api/plugins/getpypi/list').success((data) => {
+                $scope.repoList = data;
                 $scope.notInstalledRepoList = $scope.repoList.filter((x) => !$scope.isInstalled(x)).map((x) => x);
-                $scope.repoListOfficial = $scope.repoList.filter((x) => x.signature === $scope.officialKeyFingerprint).map((x) => x);
-                $scope.repoListCommunity = $scope.repoList.filter((x) => x.signature !== $scope.officialKeyFingerprint).map((x) => x);
+                $scope.repoListOfficial = $scope.repoList.filter((x) => x.type === "official").map((x) => x);
+                $scope.repoListCommunity = $scope.repoList.filter((x) => x.type !== "official").map((x) => x);
             }, err => {
                 notify.error(gettext('Could not load plugin repository'), err.message)
             });
@@ -33,7 +59,7 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
             notify.error(gettext('Could not load the installed plugin list'), err.message)
         });
 
-        $http.get('/api/plugins/core/check-upgrade').then(resp => $scope.coreUpgradeAvailable = resp.data);
+        $http.get('/api/plugins/core/check-upgrade').success(data => $scope.coreUpgradeAvailable = $scope.needUpgrade($rootScope.ajentiVersion,data));
 
         $scope.pypiList = null;
         $http.get('/api/plugins/pypi/list').then(resp => $scope.pypiList = resp.data);
@@ -93,7 +119,7 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
             return null;
         }
         for (let p of $scope.repoList) {
-            if (p.name === plugin.name && p.version !== plugin.version) {
+            if (p.name === plugin.name && $scope.needUpgrade(plugin.version,p.version)) {
                 return p;
             }
         }
@@ -104,10 +130,17 @@ angular.module('ajenti.plugins').controller('PluginsIndexController', function($
         $scope.selectedRepoPlugin = null;
         $scope.selectedInstalledPlugin = null;
         let msg = messagebox.show({progress: true, title: 'Installing'});
+        upgradeInfo = $scope.getUpgrade(plugin);
+        if (upgradeInfo !== null) {
+            if (upgradeInfo.version != plugin.version)
+                version = upgradeInfo.version;
+        }
+        else
+            version = plugin.version;
         return tasks.start(
             'aj.plugins.plugins.tasks.InstallPlugin',
             [],
-            {name: plugin.name, version: plugin.version}
+            {name: plugin.name, version: version}
         ).then((data) => {
             data.promise.then(() => {
                 $scope.refresh();
