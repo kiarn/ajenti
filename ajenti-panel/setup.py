@@ -21,6 +21,7 @@ auth:
   allow_sudo: true
   emails: {}
   provider: os
+  user_config: os
 bind:
   host: 0.0.0.0
   mode: tcp
@@ -59,7 +60,7 @@ setup(
     description='Ajenti core based panel',
     author='Eugene Pankov',
     author_email='e@ajenti.org',
-    url='http://ajenti.org/',
+    url='https://ajenti.org/',
     packages=find_packages(),
     scripts=['ajenti-panel', 'ajenti-ssl-gen', 'ajenti-client-ssl-gen', 'ajenti-upgrade'],
     cmdclass={'install': install},

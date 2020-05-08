@@ -27,7 +27,7 @@ def start(daemonize=False, log_level=logging.INFO, dev_mode=False, **kwargs):
             aj.log.init_log_file(log_level)
             import aj.core
             try:
-                aj.core.run(**kwargs)
+                aj.core.run(dev_mode=dev_mode, **kwargs)
             # pylint: disable=W0703
             except Exception as e:
                 handle_crash(e)
@@ -37,7 +37,7 @@ def start(daemonize=False, log_level=logging.INFO, dev_mode=False, **kwargs):
             aj.log.init_log_file(log_level)
         import aj.core
         try:
-            aj.core.run(**kwargs)
+            aj.core.run(dev_mode=dev_mode, **kwargs)
         except KeyboardInterrupt:
             pass
         # pylint: disable=W0703
@@ -53,7 +53,7 @@ def handle_crash(exc):
     report_path = '/root/%s-crash.txt' % aj.product
     try:
         report = open(report_path, 'w')
-    except:
+    except Exception as e:
         report_path = './%s-crash.txt' % aj.product
         report = open(report_path, 'w')
 

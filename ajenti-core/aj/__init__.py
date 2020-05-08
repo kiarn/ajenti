@@ -6,7 +6,7 @@ import subprocess
 
 # imported by installer, no 3rd party imports here!
 
-__version__ = '2.1.34'
+__version__ = '2.1.35'
 
 # Global state
 
@@ -46,11 +46,13 @@ plugin_providers = []
 
 sessions = {}
 
+python_version = None
+
 
 __all__ = [
     'config', 'platform', 'platform_string', 'platform_unmapped',
     'version', 'server', 'debug', 'init',
-    'exit', 'restart'
+    'exit', 'restart', 'python_version'
 ]
 
 
@@ -66,6 +68,9 @@ def detect_version():
         # return __version__
     # return p.stdout.read().strip(b'\n ').decode()
 
+
+def detect_python():
+    return pyplatform.python_version()
 
 def detect_platform():
     base_mapping = {
@@ -98,10 +103,13 @@ def detect_platform():
         return res, res
 
     dist = ''
-    (maj, min, patch) = pyplatform.python_version_tuple()
+    (maj, min, _) = pyplatform.python_version_tuple()
     maj = int(maj)
     min = int(min)
-    if (maj * 10 + min) >= 26:
+    if (maj * 10 + min) >= 36:
+        import distro
+        dist = distro.linux_distribution()[0]
+    elif (maj * 10 + min) >= 26:
         dist = pyplatform.linux_distribution()[0]
     else:
         dist = pyplatform.dist()[0]
@@ -120,8 +128,8 @@ def detect_platform():
 
     if dist == '':
         try:
-            dist = subprocess.check_output(['strings', '-4', '/etc/issue']).split()[0].strip()
-        except:
+            dist = subprocess.check_output(['strings', '-4', '/etc/issue']).split()[0].strip().decode()
+        except subprocess.CalledProcessError as e:
             dist = 'unknown'
 
     res = dist.strip(' \'"\t\n\r').lower()
@@ -136,9 +144,9 @@ def detect_platform():
 
 def detect_platform_string():
     try:
-        return subprocess.check_output(['lsb_release', '-sd']).strip()
-    except:
-        return subprocess.check_output(['uname', '-mrs']).strip()
+        return subprocess.check_output(['lsb_release', '-sd']).strip().decode()
+    except subprocess.CalledProcessError as e:
+        return subprocess.check_output(['uname', '-mrs']).strip().decode()
 
 
 def init():
@@ -147,9 +155,10 @@ def init():
     if aj.platform is None:
         aj.platform_unmapped, aj.platform = detect_platform()
     else:
-        logging.warn('Platform ID was enforced by commandline!')
+        logging.warning('Platform ID was enforced by commandline!')
         aj.platform_unmapped = aj.platform
     aj.platform_string = detect_platform_string()
+    aj.python_version = detect_python()
 
 
 def exit():

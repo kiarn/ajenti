@@ -5,7 +5,7 @@ from jadi import component
 import aj
 from aj.auth import authorize
 from aj.api.http import url, HttpPlugin
-from aj.config import UserConfig
+from aj.config import UserConfigService
 from aj.auth import AuthenticationProvider, PermissionProvider
 
 from aj.api.endpoint import endpoint, EndpointReturn
@@ -27,7 +27,7 @@ class Handler(HttpPlugin):
                 return aj.config.data
         if http_context.method == 'POST':
             with authorize('core:config:write'):
-                data = json.loads(http_context.body)
+                data = json.loads(http_context.body.decode())
                 aj.config.data.update(data)
                 aj.config.save()
                 self.context.worker.reload_master_config()
@@ -37,10 +37,10 @@ class Handler(HttpPlugin):
     @endpoint(api=True)
     def handle_api_user_config(self, http_context):
         if http_context.method == 'GET':
-            return UserConfig.get(self.context).data
+            return UserConfigService.get(self.context).get_provider().data
         if http_context.method == 'POST':
-            data = json.loads(http_context.body)
-            config = UserConfig.get(self.context)
+            data = json.loads(http_context.body.decode())
+            config = UserConfigService.get(self.context).get_provider()
             config.data.update(data)
             config.save()
 

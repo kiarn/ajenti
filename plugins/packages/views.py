@@ -11,7 +11,7 @@ from aj.plugins.packages.api import PackageManager
 class Handler(HttpPlugin):
     def __init__(self, context):
         self.context = context
-        self.managers = dict((x.id, x) for x in PackageManager.all(self.context, ignore_exceptions=True))
+        self.managers = {x.id:x for x in PackageManager.all(self.context, ignore_exceptions=True)}
 
     def __package_to_json(self, package):
         return {
@@ -58,7 +58,7 @@ class Handler(HttpPlugin):
     @endpoint(api=True)
     def handle_api_apply(self, http_context, manager_id=None):
         mgr = self.managers[manager_id]
-        selection = json.loads(http_context.body)
+        selection = json.loads(http_context.body.decode())
         cmd = mgr.get_apply_cmd(selection)
         return {
             'terminalCommand': cmd,
