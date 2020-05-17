@@ -20,14 +20,13 @@ resources:
     - resources/vendor/AngularJS-Toaster/toaster.css
     - resources/vendor/angular-loading-bar/build/loading-bar.min.js
     - resources/vendor/angular-loading-bar/build/loading-bar.min.css
-    - resources/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js
+    - resources/vendor/ui-bootstrap4/docs/ui-bootstrap-tpls-3.0.5.min.js
     - resources/vendor/angular-sortable-view/src/angular-sortable-view.js
     - resources/vendor/ngstorage/ngStorage.min.js
     - resources/vendor/fastclick/lib/fastclick.js
     - resources/vendor/angular-base64/angular-base64.js
     - resources/vendor/mobile-detect/mobile-detect.min.js
     - resources/vendor/angular-gettext/dist/angular-gettext.min.js
-    - resources/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js
     - resources/css/app.scss
     - path: resources/extra-vendor/mixpanel.js
       vendor: true
